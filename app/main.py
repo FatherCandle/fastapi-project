@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from . import models
 from .database import engine
 from .routers import post, user, vote, auth
 
 # Creates all the db tables by the models when the app first runs\
 # Isnt needed anymore since we started using alembic as db migration tool
-models.Base.metadata.create_all(bind=engine)
+# models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 

@@ -11,6 +11,7 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 @router.get("/", response_model=List[schemas.PostOut])
 def get_posts(
     db: Session = Depends(get_db),
+    current_user: models.User = Depends(oauth2.get_current_user),
     limit: int = 10,
     skip: int = 0,
     search: Optional[str] = "",
@@ -39,7 +40,11 @@ def get_posts(
 
 
 @router.get("/{id}", response_model=schemas.PostOut)
-def get_post(id: int, db: Session = Depends(get_db)):
+def get_post(
+    id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(oauth2.get_current_user),
+):
     # Passing the id as a tuple because vars should be an indexable value
     # cursor.execute("""SELECT * from posts where id = %s """, (id,))
     # post = cursor.fetchone()
