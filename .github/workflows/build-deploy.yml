@@ -58,7 +58,7 @@ jobs:
       - name: Login to docker hub
         uses: docker/login-action@v1
         with:
-          username: ${{secrets.DOCKER_HUB_USERNAME}} 
+          username: ${{secrets.DOCKER_HUB_USER_NAME}} 
           password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
       
       - name: Set up docker Buildx
@@ -73,7 +73,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{steps.buildx.outputs.name}}
           push: true
-          tags: ${{secrets.DOCKER_HUB_USERNAME}}/fastapi-proj:latest
+          tags: ${{secrets.DOCKER_HUB_USER_NAME}}/fastapi-proj:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
       - name: Image digest
