@@ -8,15 +8,16 @@ on:
 
 jobs:
   jobs1:
+    environment: # Reference the environment created at the github repo, contains the secrets for env
+      name: env_build_deploy
     env: 
-          DB_HOSTNAME: localhost
-          DB_PORT: 5432
-          DB_NAME: fastapi
-          DB_USERNAME: postgres
-          DB_PASSWORD: DevpAa3030
-          SECRET_KEY: 7a57a614793070173b21c8aa51c57f6e5d4c847a4d5cc4c19d437fa34b1fab51
-          ALGORITHM: HS256
-          ACCESS_TOKEN_EXPIRE_MINUTES: 60
+          DB_HOSTNAME: ${{secrets.DB_HOSTNAME}}
+          DB_PORT: ${{secrets.DB_PORT}} 
+          DB_NAME: ${{secrets.DB_NAME}} 
+          DB_USERNAME: ${{secrets.DB_USERNAME}} 
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}} 
+          SECRET_KEY: ${{secrets.SECRET_KEY}} 
+          ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}} 
     runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
