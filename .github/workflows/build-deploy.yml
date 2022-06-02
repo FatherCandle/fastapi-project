@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
-  jobs1:
+  build:
     environment: # Reference the environment created at the github repo, contains the secrets for env
       name: env_build_deploy
     env: 
@@ -78,3 +78,18 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
       - name: Image digest
         run: echo ${{steps.docker_build.outputs.digest}}
+
+  deploy:
+    environment: # Reference the environment created at the github repo, contains the secrets for env
+      name: production
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v3
+      - name: deploy to heroku
+      - uses: akhileshns/heroku-deploy@v3.12.12
+              with:
+                heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+                heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+                heroku_email: ${{secrets.HEROKU_EMAIL}}
